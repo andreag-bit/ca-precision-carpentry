@@ -9,7 +9,7 @@ export default function Header() {
     { id: 'home', label: 'HOME' },
     { id: 'about', label: 'ABOUT' },
     { id: 'services', label: 'SERVICES' },
-    { id: 'process', label: 'OUR PROCESS' },
+    { id: 'process', label: 'PROJECT INFO' },
     { id: 'projects', label: 'INSPIRATION' },
     { id: 'contact', label: 'CONTACT' },
   ]
