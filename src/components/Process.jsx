@@ -1,79 +1,95 @@
-const steps = [
+import { useState } from 'react'
+
+const questions = [
   {
-    number: '01',
-    title: 'Consultation',
-    description:
-      'Tell us about your project, ideas, requirements and vision for the space.',
+    question: 'How long does it take?',
+    answer:
+      'The timeline depends on the size, materials and complexity of your project. Once we review your ideas, plans and measurements, we’ll provide a clear estimated schedule before work begins.',
   },
   {
-    number: '02',
-    title: 'Design & Quote',
-    description:
-      'We discuss the design, materials and finishes, then prepare a clear quote.',
+    question: 'How much does it cost?',
+    answer:
+      'Every project is custom quoted. Pricing depends on the dimensions, materials, finishes, hardware and installation requirements. We’ll provide a transparent quote based on the agreed scope.',
   },
   {
-    number: '03',
-    title: 'Confirm & Plan',
-    description:
-      'Once approved, we finalise the details, measurements and project schedule.',
-  },
-  {
-    number: '04',
-    title: 'Build',
-    description:
-      'Your joinery is manufactured with precision using carefully selected materials.',
-  },
-  {
-    number: '05',
-    title: 'Installation',
-    description:
-      'We complete the installation with care, attention to detail and a clean handover.',
+    question: 'What’s included?',
+    answer:
+      'Depending on your project, the quote may include consultation, measurements, materials, manufacture, delivery, installation and final adjustments. Everything included will be clearly listed in your quote.',
   },
 ]
 
 export default function Process() {
+  const [openQuestion, setOpenQuestion] = useState(0)
+
+  const toggleQuestion = (index) => {
+    setOpenQuestion(openQuestion === index ? null : index)
+  }
+
   return (
     <section
       id="process"
       className="border-t border-[#b9883b]/20 bg-[#090909] py-20 text-white md:py-28"
     >
-      <div className="mx-auto max-w-7xl px-6 md:px-8">
+      <div className="mx-auto grid max-w-7xl gap-12 px-6 md:px-8 lg:grid-cols-[0.8fr_1.2fr]">
 
-        <div className="text-center">
+        <div>
           <p className="text-xs font-semibold tracking-[0.28em] text-[#c8943f]">
-            OUR PROCESS
+            PROJECT INFORMATION
           </p>
 
-          <h2 className="mt-4 text-3xl font-light tracking-wide md:text-5xl">
-            Simple. Transparent. Easy.
+          <h2 className="mt-4 max-w-md text-4xl font-light leading-tight md:text-5xl">
+            What to expect
           </h2>
 
-          <div className="mx-auto mt-6 h-px w-14 bg-[#c8943f]" />
+          <div className="mt-6 h-px w-14 bg-[#c8943f]" />
+
+          <p className="mt-7 max-w-md text-base leading-8 text-white/60">
+            Every project is different, but we keep the process clear from the
+            first conversation through to installation.
+          </p>
+
+          <a
+            href="#contact"
+            className="mt-8 inline-block border border-[#c8943f] px-6 py-3 text-xs font-semibold tracking-[0.14em] transition hover:bg-[#c8943f] hover:text-black"
+          >
+            ASK US A QUESTION
+          </a>
         </div>
 
-        <div className="mt-14 grid gap-8 md:grid-cols-5">
-          {steps.map((step, index) => (
-            <article
-              key={step.number}
-              className="relative border-t border-[#b9883b]/40 pt-8 text-center md:border-t-0 md:pt-0"
-            >
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-[#c8943f] text-sm text-[#d5a34c]">
-                {step.number}
-              </div>
+        <div className="border-t border-[#b9883b]/35">
+          {questions.map((item, index) => {
+            const isOpen = openQuestion === index
 
-              {index < steps.length - 1 && (
-                <div className="absolute left-[calc(50%+28px)] right-[calc(-50%+28px)] top-7 hidden border-t border-dashed border-[#b9883b]/45 md:block" />
-              )}
+            return (
+              <article
+                key={item.question}
+                className="border-b border-[#b9883b]/35"
+              >
+                <button
+                  type="button"
+                  onClick={() => toggleQuestion(index)}
+                  className="flex w-full items-center justify-between gap-6 py-7 text-left"
+                  aria-expanded={isOpen}
+                >
+                  <span className="text-xl font-light tracking-wide md:text-2xl">
+                    {item.question}
+                  </span>
 
-              <h3 className="mt-6 text-base font-medium tracking-wide">
-                {step.title}
-              </h3>
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center border border-[#c8943f] text-xl text-[#d5a34c]">
+                    {isOpen ? '−' : '+'}
+                  </span>
+                </button>
 
-              <p className="mt-3 text-sm leading-6 text-white/55">
-                {step.description}
-              </p>
-            </article>
-          ))}
+                {isOpen && (
+                  <div className="max-w-2xl pb-7 pr-12">
+                    <p className="text-sm leading-7 text-white/60 md:text-base">
+                      {item.answer}
+                    </p>
+                  </div>
+                )}
+              </article>
+            )
+          })}
         </div>
       </div>
     </section>
