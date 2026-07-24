@@ -4,43 +4,49 @@ import heroImg from '../assets/hero-image.jpg'
 
 export default function Hero() {
   return (
-    <section id="top" className="relative min-h-[110vh] md:min-h-[115vh] text-white overflow-hidden">
-      {/* Imagen de fondo */}
+    <section
+      id="top"
+      className="relative min-h-screen overflow-hidden bg-black text-white"
+    >
       <div
         className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: `url(${heroImg})`,
-          filter: 'brightness(0.7) contrast(1.05)' // <-- oscurece la imagen
-        }}
+        style={{ backgroundImage: `url(${heroImg})` }}
         aria-hidden="true"
       />
-      {/* Overlay extra para refuerzo */}
-      <div className="absolute inset-0 bg-black/35" />
 
-      {/* Contenido */}
-      <div className="relative z-10 mx-auto max-w-7xl px-6">
-        <div className="pt-[28vh] md:pt-[30vh] max-w-4xl">
-          <h1
-            className="text-3xl sm:text-4xl md:text-6xl font-light md:font-semibold leading-tight tracking-tight"
-            style={{ textShadow: '0 2px 6px rgba(0,0,0,0.5)' }}
-          >
-            Commercial and High-end Residential Carpentry and Joinery
+      <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-black/10" />
+      <div className="absolute inset-0 bg-black/20" />
+
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl items-center px-6 pt-20 md:px-8">
+        <div className="max-w-2xl">
+          <p className="mb-5 text-sm font-semibold tracking-[0.28em] text-[#d5a34c]">
+            YOU DREAM IT
+          </p>
+
+          <h1 className="text-5xl font-light leading-[0.95] tracking-tight sm:text-6xl md:text-7xl">
+            WE BUILD IT
           </h1>
 
-          {/* Botones */}
-          <div className="mt-16 md:mt-20 flex flex-wrap items-center gap-4">
+          <div className="mt-6 h-px w-16 bg-[#c8943f]" />
+
+          <p className="mt-7 max-w-lg text-base leading-7 text-white/80 md:text-lg">
+            Custom carpentry, interiors and renovations built with precision,
+            detail and craftsmanship across Sydney.
+          </p>
+
+          <div className="mt-10 flex flex-wrap gap-4">
             <a
               href="#projects"
-              className="rounded-xl bg-gray-900/90 backdrop-blur px-7 py-3 text-sm font-semibold tracking-wider uppercase text-white hover:bg-gray-800 transition shadow"
+              className="bg-[#c8943f] px-7 py-3 text-sm font-semibold tracking-[0.12em] text-black transition hover:bg-[#ddb15d]"
             >
-              View Projects
+              VIEW OUR WORK
             </a>
+
             <a
-              href="#contact"
-              className="rounded-xl px-7 py-3 text-sm font-semibold tracking-wider uppercase border transition shadow-sm
-                         text-white border-white/90 hover:bg-[#00aa66] hover:text-black hover:border-[#00aa66]"
+              href="#quote"
+              className="border border-[#c8943f] px-7 py-3 text-sm font-semibold tracking-[0.12em] text-white transition hover:bg-[#c8943f] hover:text-black"
             >
-              Contact Us
+              GET A QUOTE
             </a>
           </div>
         </div>
