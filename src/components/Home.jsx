@@ -1,61 +1,72 @@
 import React from 'react'
-import homeHero from '../assets/home-hero.jpg' // asegúrate que el nombre coincida con tu archivo
+import homeHero from '../assets/home-hero.jpg'
 
 export default function Home() {
-  const brandColor = "#00aa66"
-  const brandColorHover = "#00cc77"
-
   return (
-    <section id="home" className="py-20 bg-white">
-      <div className="mx-auto max-w-7xl px-4">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          
-          {/* Columna izquierda: Historia + Highlights */}
+    <section
+      id="home"
+      className="bg-[#0b0b0b] py-20 text-white md:py-28"
+    >
+      <div className="mx-auto max-w-7xl px-6 md:px-8">
+
+        <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-snug">
-              Tailored Joinery Solutions Since 2018
-            </h2>
-            <p className="mt-4 text-lg text-gray-600 leading-relaxed">
-              Since 2018, GMC Solutions has curated a team of experts with extensive 
-              combined experience in joinery and carpentry for over 40 years. 
-              Our collective expertise allows us to provide seamless service 
-              from concept design through to completion. 
-              Our commitment is to deliver high-quality products 
-              and exceed customer expectations on every project.
+            <p className="text-xs font-semibold tracking-[0.28em] text-[#c8943f]">
+              ABOUT CA PRECISION
             </p>
 
-            <ul className="mt-6 space-y-2 text-gray-700 list-disc list-inside font-medium">
-              <li>Office Fit-Outs</li>
-              <li>Kitchen Installation</li>
-              <li>Residential & Medical Joinery</li>
-            </ul>
+            <h2 className="mt-5 max-w-xl text-4xl font-light leading-tight md:text-5xl">
+              Bespoke craftsmanship,
+              <span className="block text-[#d5a34c]">
+                tailored to your space.
+              </span>
+            </h2>
 
-            <div className="mt-8 flex gap-4">
+            <div className="mt-7 h-px w-14 bg-[#c8943f]" />
+
+            <p className="mt-7 max-w-xl text-base leading-8 text-white/65">
+              CA Precision Carpentry provides custom joinery, interiors,
+              renovations and carpentry services across Sydney.
+            </p>
+
+            <p className="mt-4 max-w-xl text-base leading-8 text-white/65">
+              From initial ideas through to installation, every project is
+              approached with careful planning, quality materials and close
+              attention to detail.
+            </p>
+
+            <div className="mt-9 flex flex-wrap gap-4">
               <a
                 href="#services"
-                className="rounded-xl px-6 py-3 font-semibold transition"
-                style={{ backgroundColor: brandColor, color: "#000000" }}
-                onMouseEnter={e => (e.currentTarget.style.backgroundColor = brandColorHover)}
-                onMouseLeave={e => (e.currentTarget.style.backgroundColor = brandColor)}
+                className="bg-[#c8943f] px-6 py-3 text-xs font-semibold tracking-[0.14em] text-black transition hover:bg-[#ddb15d]"
               >
-                Explore Services
+                EXPLORE SERVICES
               </a>
+
               <a
-                href="#projects"
-                className="rounded-xl bg-gray-900 text-white px-6 py-3 hover:bg-gray-800 transition"
+                href="#contact"
+                className="border border-[#c8943f] px-6 py-3 text-xs font-semibold tracking-[0.14em] transition hover:bg-[#c8943f] hover:text-black"
               >
-                See Projects
+                START A CONVERSATION
               </a>
             </div>
           </div>
 
-          {/* Columna derecha: Imagen */}
-          <div className="rounded-2xl overflow-hidden shadow-lg border">
-            <img 
-              src={homeHero} 
-              alt="GMC Solutions Joinery Project" 
-              className="w-full h-full object-cover" 
+          <div className="relative min-h-[430px] overflow-hidden border border-[#b9883b]/30">
+            <img
+              src={homeHero}
+              alt="CA Precision Carpentry design inspiration"
+              className="absolute inset-0 h-full w-full object-cover"
             />
+
+            <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
+
+            <div className="absolute bottom-0 left-0 border-r border-t border-[#b9883b]/40 bg-black/80 px-6 py-5 backdrop-blur-sm">
+              <p className="text-xs tracking-[0.22em] text-[#d5a34c]">
+                BUILT WITH PRECISION
+              </p>
+            </div>
           </div>
 
         </div>
