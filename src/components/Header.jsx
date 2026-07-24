@@ -1,144 +1,87 @@
 // src/components/Header.jsx
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import logo from '../assets/logo.png'
 
 export default function Header() {
-  const [activeSection, setActiveSection] = useState('')
   const [open, setOpen] = useState(false)
-
-  useEffect(() => {
-    const sections = Array.from(document.querySelectorAll('section[id]'))
-    if (sections.length === 0) return
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter(e => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
-        if (visible) {
-          const id = visible.target.getAttribute('id')
-          setActiveSection(id || '')
-        }
-      },
-      {
-        // ajusta por el header fijo
-        root: null,
-        rootMargin: '-120px 0px -40% 0px',
-        threshold: [0.25, 0.5, 0.6, 0.75],
-      }
-    )
-    sections.forEach((sec) => observer.observe(sec))
-
-    const handleScrollTop = () => {
-      const home = document.getElementById('home')
-      if (home) {
-        const topLimit = home.offsetTop - 140
-        if (window.scrollY < topLimit) setActiveSection('')
-      }
-    }
-    window.addEventListener('scroll', handleScrollTop, { passive: true })
-    handleScrollTop()
-
-    return () => {
-      window.removeEventListener('scroll', handleScrollTop)
-      observer.disconnect()
-    }
-  }, [])
 
   const navItems = [
     { id: 'home', label: 'HOME' },
-    { id: 'about', label: 'ABOUT US' },
+    { id: 'about', label: 'ABOUT' },
     { id: 'services', label: 'SERVICES' },
-    { id: 'projects', label: 'PROJECTS' },
+    { id: 'process', label: 'OUR PROCESS' },
+    { id: 'projects', label: 'INSPIRATION' },
     { id: 'contact', label: 'CONTACT' },
   ]
 
-  const baseLink =
-    'px-4 py-2 rounded-xl transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00aa66]'
-
-  const goTop = (e) => {
-    e.preventDefault()
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-    setOpen(false)
-  }
-
-  const NavLinks = ({ onClickItem }) => (
-    <>
-      {navItems.map((item) => {
-        const isActive = activeSection === item.id
-        return (
-          <a
-            key={item.id}
-            href={`#${item.id}`}
-            onClick={() => onClickItem?.()}
-            className={`${baseLink} ${
-              isActive
-                ? 'bg-[#00aa66] text-black font-semibold shadow-md'
-                : 'hover:bg-[#00aa66] hover:text-black'
-            }`}
-            aria-current={isActive ? 'page' : undefined}
-          >
-            {item.label}
-          </a>
-        )
-      })}
-      <a
-        href="#quote"
-        onClick={() => onClickItem?.()}
-        className="ml-1 md:ml-4 rounded-xl px-4 py-2 font-semibold text-black shadow-md"
-        style={{ backgroundColor: '#00aa66' }}
-      >
-        GET A QUOTE
-      </a>
-    </>
-  )
-
   return (
-    <header className="fixed top-0 w-full bg-gray-900 text-white shadow z-50">
-      <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
-        {/* Logo → va al HERO (top), y un poquito más grande */}
-        <a
-          href="#"
-          onClick={goTop}
-          className="flex items-center gap-2"
-          aria-label="Go to hero"
-        >
-          {/* móvil sutil, desktop poquito más grande */}
-          <img src={logo} alt="GMC Solutions logo" className="h-12 md:h-14" />
+    <header className="fixed top-0 z-50 w-full border-b border-[#b9883b]/30 bg-[#090909]/95 text-white backdrop-blur-md">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 md:px-8">
+
+        <a href="#top" className="flex items-center">
+          <img
+            src={logo}
+            alt="CA Precision Carpentry"
+            className="h-14 w-auto object-contain"
+          />
         </a>
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex gap-2 md:gap-4 items-center">
-          <NavLinks />
+        <nav className="hidden items-center gap-7 md:flex">
+          {navItems.map((item) => (
+            <a
+              key={item.id}
+              href={`#${item.id}`}
+              className="text-xs font-medium tracking-[0.14em] text-white/85 transition hover:text-[#d5a34c]"
+            >
+              {item.label}
+            </a>
+          ))}
+
+          <a
+            href="#quote"
+            className="border border-[#c8943f] px-5 py-3 text-xs font-semibold tracking-[0.12em] transition hover:bg-[#c8943f] hover:text-black"
+          >
+            GET A QUOTE
+          </a>
         </nav>
 
-        {/* Mobile hamburger */}
         <button
-          className="md:hidden inline-flex items-center justify-center rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#00aa66]"
-          aria-expanded={open ? 'true' : 'false'}
+          type="button"
+          className="flex h-11 w-11 items-center justify-center border border-[#c8943f]/60 md:hidden"
+          onClick={() => setOpen(!open)}
           aria-label="Open menu"
-          onClick={() => setOpen((v) => !v)}
         >
-          {/* simple icon */}
-          <span className="sr-only">Open menu</span>
-          <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
-            {open ? (
-              <path fill="currentColor" d="M18.3 5.71L12 12l6.3 6.29-1.41 1.41L10.59 12l6.3-6.29z" transform="rotate(90 12 12)" />
-            ) : (
-              <path fill="currentColor" d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z" />
-            )}
-          </svg>
+          <span className="text-xl text-[#d5a34c]">
+            {open ? '×' : '☰'}
+          </span>
         </button>
       </div>
 
-      {/* Mobile panel */}
       {open && (
-        <div className="md:hidden bg-gray-900/98 border-t border-gray-800">
-          <div className="max-w-7xl mx-auto px-4 py-3 flex flex-col gap-2">
-            <NavLinks onClickItem={() => setOpen(false)} />
+        <nav className="border-t border-[#b9883b]/25 bg-[#090909] px-6 py-5 md:hidden">
+          <div className="flex flex-col gap-4">
+            {navItems.map((item) => (
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                onClick={() => setOpen(false)}
+                className="text-sm tracking-[0.12em] text-white/85"
+              >
+                {item.label}
+              </a>
+            ))}
+
+            <a
+              href="#quote"
+              onClick={() => setOpen(false)}
+              className="mt-2 border border-[#c8943f] px-5 py-3 text-center text-sm font-semibold tracking-[0.12em] text-[#d5a34c]"
+            >
+              GET A QUOTE
+            </a>
           </div>
-        </div>
+        </nav>
       )}
     </header>
   )
 }
+
