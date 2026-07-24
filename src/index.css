@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Smooth scrolling for anchor links (con resp. a accesibilidad) */
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Ajuste para que el header fijo no tape las secciones */
+section[id] {
+  /* altura aproximada del header en mobile */
+  scroll-margin-top: 80px;
+}
+
+/* En pantallas más grandes el header suele ser más alto */
+@media (min-width: 768px) {
+  section[id] {
+    scroll-margin-top: 96px; /* ajusta si tu header es más alto */
+  }
+}
+
+/* (Opcional) Clase utilitaria por si quieres activar un "pill" con CSS + JS */
+.nav-pill--active {
+  background-color: #00aa66; /* verde pill */
+  color: #0a0a0a; /* letras negras */
+  border-radius: 9999px; /* pill */
+}
