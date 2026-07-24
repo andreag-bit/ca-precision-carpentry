@@ -1,7 +1,6 @@
 import { useState } from 'react'
 
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xgoaodgb'
-// TODO: Replace the Formspree endpoint above with the production form ID.
 
 const initialFormState = {
   firstName: '',
@@ -19,15 +18,11 @@ export default function Contact() {
 
   const handleChange = (event) => {
     const { name, value } = event.target
-    setFormValues((prev) => ({
-      ...prev,
+
+    setFormValues((previousValues) => ({
+      ...previousValues,
       [name]: value,
     }))
-  }
-
-  const validateForm = () => {
-    const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'message']
-    return requiredFields.every((field) => formValues[field].trim().length > 0)
   }
 
   const handleSubmit = async (event) => {
@@ -35,8 +30,12 @@ export default function Contact() {
     setStatusMessage('')
     setStatusType('')
 
-    if (!validateForm()) {
-      setStatusMessage('Please fill in all required fields before sending.')
+    const allFieldsCompleted = Object.values(formValues).every(
+      (value) => value.trim().length > 0
+    )
+
+    if (!allFieldsCompleted) {
+      setStatusMessage('Please complete all fields before sending.')
       setStatusType('error')
       return
     }
@@ -53,110 +52,166 @@ export default function Contact() {
         body: JSON.stringify(formValues),
       })
 
-      if (response.ok) {
-        setFormValues(initialFormState)
-        setStatusMessage('Thank you, your enquiry has been sent.')
-        setStatusType('success')
-      } else {
-        setStatusMessage('Sorry, something went wrong. Please try again shortly.')
-        setStatusType('error')
+      if (!response.ok) {
+        throw new Error('Unable to submit form')
       }
-    } catch (error) {
-      setStatusMessage('Sorry, something went wrong. Please try again shortly.')
+
+      setFormValues(initialFormState)
+      setStatusMessage('Thank you. Your enquiry has been sent.')
+      setStatusType('success')
+    } catch {
+      setStatusMessage(
+        'Something went wrong. Please contact us by phone or email.'
+      )
       setStatusType('error')
     } finally {
       setIsSubmitting(false)
     }
   }
 
+  const inputStyles =
+    'w-full border border-[#b9883b]/30 bg-[#111111] px-4 py-3 text-sm text-white outline-none transition placeholder:text-white/35 focus:border-[#c8943f]'
+
   return (
-    <section id="contact" className="py-20 border-t">
-      <div className="mx-auto max-w-7xl px-4 grid md:grid-cols-2 gap-10">
+    <section
+      id="contact"
+      className="border-t border-[#b9883b]/20 bg-[#090909] py-20 text-white md:py-28"
+    >
+      <div className="mx-auto grid max-w-7xl gap-14 px-6 md:px-8 lg:grid-cols-[0.8fr_1.2fr]">
+
         <div>
-          <h2 className="text-2xl md:text-4xl font-semibold">Contact</h2>
-          <p className="mt-2 text-slate-600">Sydney, NSW • Mon–Fri 7:00–16:00</p>
-          <div className="mt-6 space-y-2 text-sm">
-            <p>
-              <span className="font-semibold">Phone:</span>{' '}
-              <a href="tel:+610413893841" className="text-slate-700 hover:text-slate-900">
-                +61 0413 893 841
+          <p className="text-xs font-semibold tracking-[0.28em] text-[#c8943f]">
+            CONTACT
+          </p>
+
+          <h2 className="mt-4 text-4xl font-light leading-tight md:text-5xl">
+            Let’s discuss your project.
+          </h2>
+
+          <div className="mt-6 h-px w-14 bg-[#c8943f]" />
+
+          <p className="mt-7 max-w-md text-base leading-8 text-white/60">
+            Share your plans, measurements or ideas and we’ll help you take the
+            next step.
+          </p>
+
+          <div className="mt-10 space-y-6 text-sm">
+            <div>
+              <p className="text-xs tracking-[0.18em] text-[#c8943f]">PHONE</p>
+              <a
+                href="tel:+61423768583"
+                className="mt-2 inline-block text-base text-white/80 transition hover:text-[#d5a34c]"
+              >
+                +61 423 768 583
               </a>
-            </p>
-            <p>
-              <span className="font-semibold">Email:</span>{' '}
-              <span className="text-slate-700">info@gmcsolutions.com.au</span>
-            </p>
-            <p><span className="font-semibold">ABN:</span> 386 244 674 65</p>
+            </div>
+
+            <div>
+              <p className="text-xs tracking-[0.18em] text-[#c8943f]">EMAIL</p>
+              <a
+                href="mailto:info@caprecisioncarpentry.com.au"
+                className="mt-2 inline-block text-base text-white/80 transition hover:text-[#d5a34c]"
+              >
+                info@caprecisioncarpentry.com.au
+              </a>
+            </div>
+
+            <div>
+              <p className="text-xs tracking-[0.18em] text-[#c8943f]">ABN</p>
+              <p className="mt-2 text-base text-white/80">
+                32 488 570 196
+              </p>
+            </div>
+
+            <div>
+              <p className="text-xs tracking-[0.18em] text-[#c8943f]">
+                SERVICE AREA
+              </p>
+              <p className="mt-2 text-base text-white/80">
+                Sydney, NSW
+              </p>
+            </div>
           </div>
         </div>
+
         <form
-          className="bg-white rounded-2xl border p-6 grid gap-4"
           onSubmit={handleSubmit}
+          className="border border-[#b9883b]/30 bg-[#0d0d0d] p-6 md:p-8"
           noValidate
         >
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid gap-4 md:grid-cols-2">
             <input
               name="firstName"
               placeholder="First name"
-              className="border rounded-xl px-3 py-2"
-              required
+              className={inputStyles}
               value={formValues.firstName}
               onChange={handleChange}
+              required
             />
+
             <input
               name="lastName"
               placeholder="Last name"
-              className="border rounded-xl px-3 py-2"
-              required
+              className={inputStyles}
               value={formValues.lastName}
               onChange={handleChange}
+              required
             />
           </div>
+
           <input
             name="email"
-            placeholder="Email"
             type="email"
-            className="border rounded-xl px-3 py-2"
-            required
+            placeholder="Email"
+            className={`${inputStyles} mt-4`}
             value={formValues.email}
             onChange={handleChange}
+            required
           />
+
           <input
             name="phone"
-            placeholder="Phone"
             type="tel"
-            className="border rounded-xl px-3 py-2"
-            required
+            placeholder="Phone"
+            className={`${inputStyles} mt-4`}
             value={formValues.phone}
             onChange={handleChange}
+            required
           />
+
           <textarea
             name="message"
             placeholder="Tell us about your project"
-            className="border rounded-xl px-3 py-2 min-h-[120px]"
-            required
+            className={`${inputStyles} mt-4 min-h-[150px] resize-y`}
             value={formValues.message}
             onChange={handleChange}
+            required
           />
+
           <button
             type="submit"
-            className="rounded-xl bg-slate-900 text-white px-5 py-3"
             disabled={isSubmitting}
+            className="mt-5 w-full bg-[#c8943f] px-6 py-4 text-xs font-semibold tracking-[0.16em] text-black transition hover:bg-[#ddb15d] disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {isSubmitting ? 'Sending…' : 'Send enquiry'}
+            {isSubmitting ? 'SENDING…' : 'SEND ENQUIRY'}
           </button>
-          {statusMessage ? (
+
+          {statusMessage && (
             <p
               className={
                 statusType === 'success'
-                  ? 'text-sm text-emerald-600'
-                  : 'text-sm text-rose-600'
+                  ? 'mt-4 text-sm text-emerald-400'
+                  : 'mt-4 text-sm text-rose-400'
               }
             >
               {statusMessage}
             </p>
-          ) : null}
-          <p className="text-xs text-slate-500">By submitting you agree to be contacted about your enquiry. We’ll never spam you.</p>
+          )}
+
+          <p className="mt-4 text-xs leading-5 text-white/35">
+            By submitting this form, you agree to be contacted about your
+            enquiry.
+          </p>
         </form>
       </div>
     </section>
