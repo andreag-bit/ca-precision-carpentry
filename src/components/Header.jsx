@@ -1,4 +1,3 @@
-// src/components/Header.jsx
 import React, { useState } from 'react'
 import logo from '../assets/logo.png'
 
@@ -18,13 +17,22 @@ export default function Header() {
     <header className="fixed top-0 z-50 w-full border-b border-[#b9883b]/30 bg-[#090909]/95 text-white backdrop-blur-md">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 md:px-8">
 
-        <a href="#top" className="flex items-center">
-          <img
-            src={logo}
-            alt="CA Precision Carpentry"
-            className="h-14 w-auto object-contain"
-          />
-        </a>
+        <div className="flex items-center gap-5">
+          <a href="#top" className="flex items-center">
+            <img
+              src={logo}
+              alt="CA Precision Carpentry"
+              className="h-14 w-auto object-contain"
+            />
+          </a>
+
+          <a
+            href="#quote"
+            className="hidden border border-[#c8943f] px-5 py-3 text-xs font-semibold tracking-[0.12em] transition hover:bg-[#c8943f] hover:text-black md:inline-block"
+          >
+            GET A QUOTE
+          </a>
+        </div>
 
         <nav className="hidden items-center gap-7 md:flex">
           {navItems.map((item) => (
@@ -36,13 +44,6 @@ export default function Header() {
               {item.label}
             </a>
           ))}
-
-          <a
-            href="#quote"
-            className="border border-[#c8943f] px-5 py-3 text-xs font-semibold tracking-[0.12em] transition hover:bg-[#c8943f] hover:text-black"
-          >
-            GET A QUOTE
-          </a>
         </nav>
 
         <button
@@ -60,6 +61,15 @@ export default function Header() {
       {open && (
         <nav className="border-t border-[#b9883b]/25 bg-[#090909] px-6 py-5 md:hidden">
           <div className="flex flex-col gap-4">
+
+            <a
+              href="#quote"
+              onClick={() => setOpen(false)}
+              className="mb-2 border border-[#c8943f] px-5 py-3 text-center text-sm font-semibold tracking-[0.12em] text-[#d5a34c]"
+            >
+              GET A QUOTE
+            </a>
+
             {navItems.map((item) => (
               <a
                 key={item.id}
@@ -70,18 +80,9 @@ export default function Header() {
                 {item.label}
               </a>
             ))}
-
-            <a
-              href="#quote"
-              onClick={() => setOpen(false)}
-              className="mt-2 border border-[#c8943f] px-5 py-3 text-center text-sm font-semibold tracking-[0.12em] text-[#d5a34c]"
-            >
-              GET A QUOTE
-            </a>
           </div>
         </nav>
       )}
     </header>
   )
 }
-
