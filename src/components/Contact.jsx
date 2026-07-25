@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const FORMSPREE_ENDPOINT = https://formspree.io/f/mlgqogpg
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mlgqogpg'
 
 const initialFormState = {
   firstName: '',
