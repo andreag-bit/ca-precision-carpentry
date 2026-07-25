@@ -1,6 +1,44 @@
+import { useState } from 'react'
+
 export default function Contact() {
+  const [status, setStatus] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
   const inputStyles =
     'w-full border border-[#b9883b]/30 bg-[#111111] px-4 py-3 text-sm text-white outline-none transition placeholder:text-white/35 focus:border-[#c8943f]'
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    setIsSubmitting(true)
+    setStatus('')
+
+    const form = event.currentTarget
+    const formData = new FormData(form)
+
+    try {
+      const response = await fetch(
+        'https://formspree.io/f/mlgqogpg',
+        {
+          method: 'POST',
+          body: formData,
+          headers: {
+            Accept: 'application/json',
+          },
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error('Form submission failed')
+      }
+
+      form.reset()
+      setStatus('success')
+    } catch {
+      setStatus('error')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   return (
     <section
@@ -75,8 +113,7 @@ export default function Contact() {
         </div>
 
         <form
-          action="https://formspree.io/f/mlgqogpg"
-          method="POST"
+          onSubmit={handleSubmit}
           className="border border-[#b9883b]/30 bg-[#0d0d0d] p-6 md:p-8"
         >
           <input
@@ -126,10 +163,23 @@ export default function Contact() {
 
           <button
             type="submit"
-            className="mt-5 w-full bg-[#c8943f] px-6 py-4 text-xs font-semibold tracking-[0.16em] text-black transition hover:bg-[#ddb15d]"
+            disabled={isSubmitting}
+            className="mt-5 w-full bg-[#c8943f] px-6 py-4 text-xs font-semibold tracking-[0.16em] text-black transition hover:bg-[#ddb15d] disabled:cursor-not-allowed disabled:opacity-60"
           >
-            SEND ENQUIRY
+            {isSubmitting ? 'SENDING…' : 'SEND ENQUIRY'}
           </button>
+
+          {status === 'success' && (
+            <div className="mt-5 border border-[#c8943f]/40 bg-[#c8943f]/10 px-5 py-4 text-sm text-[#e2bd77]">
+              Thank you. Your enquiry has been sent successfully.
+            </div>
+          )}
+
+          {status === 'error' && (
+            <div className="mt-5 border border-red-500/40 bg-red-500/10 px-5 py-4 text-sm text-red-300">
+              Something went wrong. Please try again or contact us by phone or email.
+            </div>
+          )}
 
           <p className="mt-4 text-xs leading-5 text-white/35">
             By submitting this form, you agree to be contacted about your enquiry.
